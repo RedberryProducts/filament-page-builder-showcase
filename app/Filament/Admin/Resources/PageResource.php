@@ -2,16 +2,13 @@
 
 namespace App\Filament\Admin\Resources;
 
+use App\Filament\Admin\Blocks\Header;
 use App\Filament\Admin\Resources\PageResource\Pages;
-use App\Filament\Admin\Resources\PageResource\RelationManagers;
 use App\Models\Page;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use RedberryProducts\PageBuilderPlugin\Components\Forms\PageBuilder;
 
 class PageResource extends Resource
@@ -24,9 +21,12 @@ class PageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required(),
-                PageBuilder::make('website_content'),
+                PageBuilder::make('website_content')
+                    ->blocks(function () {
+                        return [
+                            Header::class,
+                        ];
+                    }),
             ]);
     }
 
