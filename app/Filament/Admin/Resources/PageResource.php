@@ -2,7 +2,9 @@
 
 namespace App\Filament\Admin\Resources;
 
+use App\Filament\Admin\Blocks\Footer;
 use App\Filament\Admin\Blocks\Header;
+use App\Filament\Admin\Blocks\Section;
 use App\Filament\Admin\Resources\PageResource\Pages;
 use App\Models\Page;
 use Filament\Forms\Form;
@@ -25,6 +27,8 @@ class PageResource extends Resource
                     ->blocks(function () {
                         return [
                             Header::class,
+                            Footer::class,
+                            Section::class,
                         ];
                     }),
             ]);
