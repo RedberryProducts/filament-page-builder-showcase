@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use RedberryProducts\PageBuilderPlugin\Traits\HasPageBuilder;
+use Redberry\PageBuilderPlugin\Traits\HasPageBuilder;
 
 class Page extends Model
 {
+    protected $guarded = [];
+
     use HasPageBuilder;
 }

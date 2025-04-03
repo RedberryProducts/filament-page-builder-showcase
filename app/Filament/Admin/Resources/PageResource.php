@@ -2,16 +2,23 @@
 
 namespace App\Filament\Admin\Resources;
 
+use App\Filament\Admin\Blocks\About\LongDescription;
 use App\Filament\Admin\Blocks\Footer;
 use App\Filament\Admin\Blocks\Header;
 use App\Filament\Admin\Blocks\Section;
 use App\Filament\Admin\Resources\PageResource\Pages;
 use App\Models\Page;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use RedberryProducts\PageBuilderPlugin\Components\Forms\PageBuilder;
+use Redberry\PageBuilderPlugin\Components\Forms\PageBuilder;
+use Redberry\PageBuilderPlugin\Components\Forms\PageBuilderPreview;
+use Redberry\PageBuilderPlugin\Components\Infolist\PageBuilderEntry;
+use Redberry\PageBuilderPlugin\Components\Infolist\PageBuilderPreviewEntry;
 
 class PageResource extends Resource
 {
@@ -19,19 +26,46 @@ class PageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                PageBuilderEntry::make('website_content')
+                    ->blocks([LongDescription::class])
+                    ->columnSpan(1),
+                PageBuilderPreviewEntry::make('website_content_preview')
+                    ->blocks([LongDescription::class])
+                    ->iframeUrl('http://localhost:5173')
+                    ->autoResizeIframe()
+                    ->columnSpan(2),
+            ]);
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                TextInput::make('name'),
+                FileUpload::make('file')->columnSpanFull(),
                 PageBuilder::make('website_content')
                     ->blocks(function () {
                         return [
-                            Header::class,
-                            Footer::class,
-                            Section::class,
+                            LongDescription::class,
                         ];
-                    }),
-            ]);
+                    })
+                    ->reorderable()
+                    ->renderPreviewWithIframes(
+                        condition: true,
+                        autoResize: true,
+                        createUrl: 'http://localhost:5173',
+                    )
+                    ->columnSpan(1),
+                PageBuilderPreview::make('website_content_preview')
+                    ->pageBuilderField('website_content')
+                    ->iframeUrl('http://localhost:5173')
+                    ->autoResizeIframe()
+                    ->columnSpan(2),
+                ])->columns(3);
     }
 
     public static function table(Table $table): Table
