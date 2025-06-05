@@ -2,13 +2,11 @@
 
 namespace App\Filament\Admin\Resources;
 
-use App\Filament\Admin\Blocks\About\LongDescription;
-use App\Filament\Admin\Blocks\Footer;
-use App\Filament\Admin\Blocks\Header;
 use App\Filament\Admin\Blocks\Section;
+use App\Filament\Admin\Blocks\Tabs;
+use App\Filament\Admin\Blocks\WhateverOne;
 use App\Filament\Admin\Resources\PageResource\Pages;
 use App\Models\Page;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
@@ -26,54 +24,44 @@ class PageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static array $blocks = [Section::class, Tabs::class, WhateverOne::class];
+
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
             ->schema([
                 PageBuilderEntry::make('website_content')
-                    ->blocks([LongDescription::class])
+                    ->blocks(self::$blocks)
                     ->columnSpan(1),
                 PageBuilderPreviewEntry::make('website_content_preview')
-                    ->blocks([LongDescription::class])
-                    ->iframeUrl('http://localhost:5173')
-                    ->autoResizeIframe()
+                    ->blocks(self::$blocks)
                     ->columnSpan(2),
-            ]);
+            ])
+            ->columns(3);
     }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('name'),
-                FileUpload::make('file')->columnSpanFull(),
+                TextInput::make('name')->columnSpanFull(),
                 PageBuilder::make('website_content')
-                    ->blocks(function () {
-                        return [
-                            LongDescription::class,
-                        ];
-                    })
+                    ->blocks(self::$blocks)
+                    ->renderWithThumbnails()
                     ->reorderable()
-                    ->renderPreviewWithIframes(
-                        condition: true,
-                        autoResize: true,
-                        createUrl: 'http://localhost:5173',
-                    )
                     ->columnSpan(1),
                 PageBuilderPreview::make('website_content_preview')
                     ->pageBuilderField('website_content')
-                    ->iframeUrl('http://localhost:5173')
-                    ->autoResizeIframe()
                     ->columnSpan(2),
-                ])->columns(3);
+            ])
+            ->columns(3);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
