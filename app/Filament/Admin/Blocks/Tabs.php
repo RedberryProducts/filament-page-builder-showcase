@@ -9,6 +9,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
 use Guava\FilamentIconPicker\Forms\IconPicker;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\HtmlString;
 use Redberry\PageBuilderPlugin\Abstracts\BaseBlock;
 
 class Tabs extends BaseBlock
@@ -20,7 +21,7 @@ class Tabs extends BaseBlock
             Repeater::make('tabs')
                 ->schema([
                     TextInput::make('title')->required(),
-                    IconPicker::make('icon')->nullable()->preload()->columns(4),
+                    IconPicker::make('icon')->nullable()->cacheable(false)->preload()->columns(4),
                     Select::make('icon_position')
                         ->options([
                             'after' => __('After'),
@@ -35,8 +36,10 @@ class Tabs extends BaseBlock
 
     public static function getThumbnail(): string|Htmlable|null
     {
-        return 'https://placehold.co/600x400/000000/FFFFFF/png';
+        $url = url('/assets/tabs.png');
+        return new HtmlString("<img style='object-fit: scale-down' src='$url' class='w-full h-32 rounded-lg mt-2'></img>");
     }
+
 
     public static function getView(): ?string
     {

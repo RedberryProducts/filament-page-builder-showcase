@@ -5,6 +5,8 @@ namespace App\Filament\Admin\Blocks;
 use App\Filament\Admin\BlockCategories\Indicators;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\HtmlString;
 use Redberry\PageBuilderPlugin\Abstracts\BaseBlock;
 
 class Badge extends BaseBlock
@@ -33,6 +35,13 @@ class Badge extends BaseBlock
                 ->default('md'),
         ];
     }
+
+    public static function getThumbnail(): string|Htmlable|null
+    {
+        $url = url('/assets/badge.png');
+        return new HtmlString("<img style='object-fit: scale-down' src='$url' class='w-full h-32 rounded-lg mt-2'></img>");
+    }
+
 
     public static function getView(): ?string
     {

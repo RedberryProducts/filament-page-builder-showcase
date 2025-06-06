@@ -5,6 +5,8 @@ namespace App\Filament\Admin\Blocks;
 use App\Filament\Admin\BlockCategories\Inputs;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\HtmlString;
 use Redberry\PageBuilderPlugin\Abstracts\BaseBlock;
 
 class Input extends BaseBlock
@@ -27,6 +29,13 @@ class Input extends BaseBlock
                 ->columnSpanFull(),
 
         ];
+    }
+
+
+    public static function getThumbnail(): string|Htmlable|null
+    {
+        $url = url('/assets/input.png');
+        return new HtmlString("<img style='object-fit: scale-down' src='$url' class='w-full h-32 rounded-lg mt-2'></img>");
     }
 
     public static function getView(): ?string
