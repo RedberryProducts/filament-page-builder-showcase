@@ -2,9 +2,14 @@
 
 namespace App\Filament\Admin\Resources;
 
+use App\Filament\Admin\Blocks\Avatar;
+use App\Filament\Admin\Blocks\Badge;
+use App\Filament\Admin\Blocks\Breadcrumbs;
+use App\Filament\Admin\Blocks\Checkbox;
+use App\Filament\Admin\Blocks\CheckboxGroup;
+use App\Filament\Admin\Blocks\Input;
 use App\Filament\Admin\Blocks\Section;
 use App\Filament\Admin\Blocks\Tabs;
-use App\Filament\Admin\Blocks\WhateverOne;
 use App\Filament\Admin\Resources\PageResource\Pages;
 use App\Models\Page;
 use Filament\Forms\Components\TextInput;
@@ -24,7 +29,16 @@ class PageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static array $blocks = [Section::class, Tabs::class, WhateverOne::class];
+    public static array $blocks = [
+        Section::class,
+        Tabs::class,
+        Breadcrumbs::class,
+        Avatar::class,
+        Badge::class,
+        Checkbox::class,
+        CheckboxGroup::class,
+        Input::class,
+    ];
 
     public static function infolist(Infolist $infolist): Infolist
     {

@@ -2,11 +2,12 @@
 
 namespace App\Filament\Admin\Blocks;
 
-use App\Filament\Admin\BlockCategories\Sections;
+use App\Filament\Admin\BlockCategories\Separators;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\HtmlString;
 use Redberry\PageBuilderPlugin\Abstracts\BaseBlock;
 
 class Section extends BaseBlock
@@ -23,7 +24,8 @@ class Section extends BaseBlock
 
     public static function getThumbnail(): string|Htmlable|null
     {
-        return 'https://placehold.co/600x400/png';
+        $url = url('/assets/section-dark.png');
+        return new HtmlString("<img style='object-fit: scale-down' src='$url' class='w-full h-32 rounded-lg mt-2'></img>");
     }
 
     public static function getView(): ?string
@@ -31,8 +33,8 @@ class Section extends BaseBlock
         return 'admin.blocks.section';
     }
 
-    // public static function getCategory(): string
-    // {
-    //     return Sections::class;
-    // }
+    public static function getCategory(): string
+    {
+        return Separators::class;
+    }
 }

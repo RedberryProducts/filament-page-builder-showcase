@@ -6,7 +6,6 @@
     <x-slot name="description">
         {!! $block['data']['description']  ?? '' !!}
     </x-slot>
-
     {!! $block['data']['content'] ?? '' !!}
 
 </x-filament::section>
