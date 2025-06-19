@@ -1,6 +1,6 @@
 <?php
 
 
-Schedule::command('migrate:fresh --seed --force')
+Schedule::command('migrate:fresh --force')
     ->withoutOverlapping()
     ->everyTwoHours();
